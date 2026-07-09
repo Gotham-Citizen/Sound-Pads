@@ -1,45 +1,46 @@
 import { useRef, useEffect } from "react"
-
-export default function Pad({id, color, on, toggle, sound, keyChar, volume}) {
+export default function Pad({id, color, on, toggle, sound, volume}) {
   const audioRef = useRef(null)
-  const buttonRef = useRef(null)
 
   useEffect(() => {
-    if (!on && audioRef.current) {
-      audioRef.current.pause()
-      audioRef.current.currentTime = 0
-    }
+    if (audioRef.current) {
+      if (on) {
+        playSound()
+      } else {
+        stopSound()
+      }
+    } 
   }, [on])
 
-  const handleClick = () => {
-    if (on) {
-      toggle(id)
-      if (audioRef.current) {
-        audioRef.current.pause()
-        audioRef.current.currentTime = 0
-      }
-    } else {
-      toggle(id)
-      playSound()
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = volume ?? 1
     }
-  }
+  }, [volume])
 
   const playSound = () => {
     if (audioRef.current) {
       audioRef.current.currentTime = 0
-      audioRef.current.volume = volume
       audioRef.current.play().catch(err => console.error("Playback error:", err))
     }
-    
-    if (buttonRef.current) {
-      buttonRef.current.classList.add("clicked")
-      setTimeout(() => {
-        if (buttonRef.current) {
-          buttonRef.current.classList.remove("clicked")
-        }
-      }, 150)
+  }
+
+  const stopSound = () => {
+    if (audioRef.current) {
+      audioRef.current.pause()
+      audioRef.current.currentTime = 0
     }
   }
+
+  const handlePadClick = () => {
+    if (on) {
+      toggle(id)
+      stopSound()
+    } else {
+      toggle(id)
+      playSound()
+    }
+  } 
 
   const styles = {
     backgroundColor: color
@@ -49,15 +50,12 @@ export default function Pad({id, color, on, toggle, sound, keyChar, volume}) {
     <>
       <audio ref={audioRef} src={sound} preload="auto" />
       <button 
-        ref={buttonRef}
         key={id} 
         className={on ? "on" : ""} 
         style={styles} 
-        onClick={handleClick}
-        data-key={keyChar}
-      >
-        {keyChar}
-      </button>
+        onClick={handlePadClick}
+        data-key={id}
+      />
     </>
   )
 }
