@@ -30,9 +30,10 @@ main {
 
 .pad-container {
     display: grid;
-    grid-template-columns: repeat(4, 100px);
-    grid-template-rows: repeat(2, 100px);
+    grid-template-columns: repeat(8, 100px);
+    grid-auto-rows: minmax(100px, auto); 
     gap: 10px;
+    margin-bottom: 30px;
 }
 
 button {
@@ -40,11 +41,165 @@ button {
     width: 100px;
     border: 3px solid white;
     border-radius: 5px;
-    cursor: pointer;   
+    cursor: pointer;
     opacity: 0.1;
     font-size: 20px;
+    position: relative;
+}
+
+button[draggable="true"] {
+    cursor: grab;
+}
+
+button.dragging {
+    opacity: 0.05;
+}
+
+button.drag-over {
+    border-color: #63DEED;
+    box-shadow: 0 0 8px rgba(99, 222, 237, 0.6);
+    transform: scale(1.05);
 }
 
 button.on {
     opacity: 1;
+}
+
+.pad-label {
+    position: absolute;
+    bottom: 4px;
+    left: 4px;
+    right: 4px;
+    font-size: 9px;
+    color: rgba(0, 0, 0, 0.6);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.delete-btn {
+    position: absolute;
+    top: 2px;
+    right: 4px;
+    font-size: 32px;
+    line-height: 1;
+    color: rgb(255, 255, 255);
+    opacity: 0;
+    transition: opacity 0.15s;
+}
+
+.delete-btn:hover {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+button:hover .delete-btn {
+    opacity: 1;
+}
+
+.add-pad-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    width: 340px;
+    grid-column: 1 / -1;
+    justify-self: center;
+}
+
+.add-pad-form h3 {
+    color: white;
+    margin: 0 0 4px;
+    font-size: 16px;
+}
+
+.form-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.form-row label {
+    color: white;
+    font-size: 14px;
+    min-width: 80px;
+    text-align: right;
+}
+
+.form-row input[type="text"],
+.form-row input[type="file"] {
+    flex: 1;
+    font-size: 13px;
+}
+
+.form-row input[type="text"] {
+    padding: 4px 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    border-radius: 3px;
+}
+
+.form-row input[type="color"] {
+    width: 32px;
+    height: 26px;
+    border: none;
+    cursor: pointer;
+}
+
+.form-row input[type="file"] {
+    color: white;
+}
+
+.key-input-warn {
+    border-color: #ff6b6b !important;
+}
+
+.key-warning {
+    font-size: 11px;
+    color: #ff6b6b;
+    margin-left: 4px;
+    white-space: nowrap;
+}
+
+.add-btn {
+    height: auto !important;
+    width: 100%;
+    opacity: 1 !important;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+    font-size: 14px;
+    padding: 8px 0;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 4px;
+}
+
+.add-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.add-pad-toggle-btn {
+    height: 40px !important;
+    width: 40px !important;
+    opacity: 1 !important;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    align-self: center;
+    justify-self: center;
+}
+
+.add-pad-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
 }
