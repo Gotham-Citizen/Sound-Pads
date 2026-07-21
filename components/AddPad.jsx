@@ -67,19 +67,25 @@ export default function AddPad({ onAdd, existingKeys, existingColors }) {
 
     const reader = new FileReader()
     reader.onloadend = () => {
-      onAdd({
+      if (reader.error) {
+        setFileWarning("Failed to read file")
+        return
+      }
+      const ok = onAdd({
         label: label.trim(),
         color,
         key: key || null,
         soundDataUrl: reader.result
       })
-      setLabel("")
-      setColor(getRandomUnusedColor(existingColors))
-      setKey("")
-      setFile(null)
-      setKeyWarning("")
-      setFileWarning("")
-      e.target.reset()
+      if (ok) {
+        setLabel("")
+        setColor(getRandomUnusedColor(existingColors))
+        setKey("")
+        setFile(null)
+        setKeyWarning("")
+        setFileWarning("")
+        e.target.reset()
+      }
     }
     reader.readAsDataURL(file)
   }
@@ -121,10 +127,10 @@ export default function AddPad({ onAdd, existingKeys, existingColors }) {
         {keyWarning && <span className="key-warning">{keyWarning}</span>}
       </div>
       <div className="form-row">
-        <label>Sound (.mp3):</label>
+        <label>Sound:</label>
         <input
           type="file"
-          accept=".mp3,audio/mpeg"
+          accept=".mp3,.wav,.ogg,.flac,.aac,.m4a,.webm,audio/mpeg,audio/wav,audio/ogg,audio/flac,audio/aac,audio/mp4,audio/webm"
           onChange={handleFileChange}
           className={fileWarning ? "key-input-warn" : ""}
           required

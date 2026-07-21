@@ -36,9 +36,11 @@ main {
     margin-bottom: 30px;
 }
 
+.pad-container button:not(.add-btn):not(.add-pad-toggle-btn) {
+    aspect-ratio: 1;
+}
+
 button {
-    height: 100px;
-    width: 100px;
     border: 3px solid white;
     border-radius: 5px;
     cursor: pointer;
@@ -47,12 +49,9 @@ button {
     position: relative;
 }
 
-button[draggable="true"] {
-    cursor: grab;
-}
-
 button.dragging {
-    opacity: 0.05;
+    opacity: 0.8;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
 }
 
 button.drag-over {
@@ -202,4 +201,32 @@ button:hover .delete-btn {
 
 .add-pad-toggle-btn:hover {
     background: rgba(255, 255, 255, 0.3);
+}
+
+@media (hover: none) and (pointer: coarse) {
+    .delete-btn {
+        opacity: 1;
+    }
+}
+
+@media (max-width: 870px) {
+    .pad-container {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 580px) {
+    .pad-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 400px) {
+    .pad-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 6px;
+    }
+    .volume-container input[type="range"] {
+        width: 100px;
+    }
 }
