@@ -76,10 +76,13 @@ export default function App() {
       on: false,
       isCustom: true
     }
+    let success = false
     setCustomPads(prev => {
       const next = [...prev, newPad]
-      return saveCustomPads(next) ? next : prev
+      success = saveCustomPads(next)
+      return success ? next : prev
     })
+    return success
   }, [])
 
   const deletePad = useCallback((id) => {
@@ -164,7 +167,7 @@ export default function App() {
       <div className="pad-container">
         {buttonElements}
         <button onClick={() => setShowAddPad(prev => !prev)} className="add-pad-toggle-btn">
-          +
+          {showAddPad ? "\u2212" : "+"}
         </button>
         {showAddPad && <AddPad onAdd={addPad} existingKeys={allKeys} existingColors={allColors} />}
       </div>
